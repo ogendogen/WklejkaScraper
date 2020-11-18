@@ -10,5 +10,6 @@ namespace Core.Models
         public string AuthorPath { get; set; }
         public string DatePath { get; set; }
         public string ContentPath { get; set; }
+        public string VariableSymbol { get; set; }
     }
 }
