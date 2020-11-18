@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30711.63
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WklejkaScraper", "WklejkaScraper\WklejkaScraper.csproj", "{7E1FD4FA-85E5-4C5A-A335-92386169116A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E1FD4FA-85E5-4C5A-A335-92386169116A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E1FD4FA-85E5-4C5A-A335-92386169116A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E1FD4FA-85E5-4C5A-A335-92386169116A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E1FD4FA-85E5-4C5A-A335-92386169116A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {82F64B1F-F681-42CD-AE96-1B81DE9D7F30}
+	EndGlobalSection
+EndGlobal
