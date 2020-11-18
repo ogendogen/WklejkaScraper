@@ -2,7 +2,7 @@
 
 namespace Core
 {
-    public class Launcher
+    public class Crawler
     {
     }
 }
