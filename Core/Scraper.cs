@@ -10,12 +10,9 @@ namespace Core
     public class Scraper
     {
         public List<ElementToScrap> ElementsToScrap { get; set; }
-        public Scraper(params ElementToScrap[] elements)
+        public Scraper(List<ElementToScrap> elementToScraps)
         {
-            foreach (var element in elements)
-            {
-                ElementsToScrap.Add(element);
-            }
+            ElementsToScrap = elementToScraps;
         }
 
         public IEnumerable<ScrapedElement> ScrapFromContent(string content)

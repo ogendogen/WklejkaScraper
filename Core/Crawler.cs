@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using Core.Models;
+using Core.Models.Scraper;
 
 namespace Core
 {
@@ -11,10 +12,11 @@ namespace Core
     {
         public Config Config { get; private set; }
         public RequestHandler RequestHandler { get; private set; }
+        public Scraper Scraper { get; set; }
         public Crawler(Config config)
         {
             Config = config;
-            RequestHandler = new RequestHandler(Config.Site, Config.MaxTriesPerPage);
+            Configuration(config);
         }
 
         public async Task<IEnumerable<Entry>> Process()
@@ -26,6 +28,10 @@ namespace Core
             throw new NotImplementedException();
         }
 
-
+        private void Configuration(Config config)
+        {
+            RequestHandler = new RequestHandler(Config.Site, Config.MaxTriesPerPage);
+            Scraper = new Scraper(Config.ElementsToScrap);
+        }
     }
 }
