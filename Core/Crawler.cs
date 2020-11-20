@@ -18,7 +18,7 @@ namespace Core
         public Crawler(Config config)
         {
             Config = config;
-            Configuration(config);
+            Configuration();
         }
 
         public async IAsyncEnumerable<Entry> Process()
@@ -59,7 +59,7 @@ namespace Core
             }
         }
 
-        private void Configuration(Config config)
+        private void Configuration()
         {
             RequestHandler = new RequestHandler(Config.Site, Config.MaxTriesPerPage);
             Scraper = new Scraper(Config.ElementsToScrap);
