@@ -11,5 +11,6 @@ namespace Core.Models
         public string DatePath { get; set; }
         public string ContentPath { get; set; }
         public string VariableSymbol { get; set; }
+        public int PagesAmount { get; set; }
     }
 }
