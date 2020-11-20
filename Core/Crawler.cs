@@ -9,7 +9,7 @@ namespace Core
 {
     public class Crawler
     {
-        public Config Config { get; set; }
+        public Config Config { get; private set; }
         public Crawler(Config config)
         {
             Config = config;
