@@ -56,9 +56,7 @@ namespace Core
                         Date = date
                     };
                 }
-                
             }
-            throw new NotImplementedException();
         }
 
         private void Configuration(Config config)
