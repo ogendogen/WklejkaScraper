@@ -50,7 +50,7 @@ namespace Core
                     yield return new Entry()
                     {
                         ID = i,
-                        IsSuccessed = true,
+                        IsSucceded = true,
                         Author = author,
                         Content = content,
                         Date = date
@@ -61,7 +61,7 @@ namespace Core
                     yield return new Entry()
                     {
                         ID = i,
-                        IsSuccessed = false,
+                        IsSucceded = false,
                         Content = "error"
                     };
                 }

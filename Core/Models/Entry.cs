@@ -10,6 +10,6 @@ namespace Core.Models
         public DateTime Date { get; set; }
         public string Author { get; set; }
         public string Content { get; set; }
-        public bool IsSuccessed { get; set; }
+        public bool IsSucceded { get; set; }
     }
 }
