@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Models.Scraper
+namespace Core.Models.Scraper.Elements
 {
     public class ElementToScrap
     {

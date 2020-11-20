@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Models.Scraper
+namespace Core.Models.Scraper.Interfaces
 {
-    public class ScrapedElement
+    public interface IScrapedElement
     {
         public string Name { get; set; }
-        public string Content { get; set; }
     }
 }

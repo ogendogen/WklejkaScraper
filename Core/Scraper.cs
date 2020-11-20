@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using Core.Models.Scraper;
+using Core.Models.Scraper.Elements;
+using Core.Models.Scraper.Interfaces;
 using HtmlAgilityPack;
 
 namespace Core
@@ -10,12 +12,12 @@ namespace Core
     public class Scraper
     {
         public List<ElementToScrap> ElementsToScrap { get; set; }
-        public Scraper(List<ElementToScrap> elementToScraps)
+        public Scraper(List<ElementToScrap> elementsToScrap)
         {
-            ElementsToScrap = elementToScraps;
+            ElementsToScrap = elementsToScrap;
         }
 
-        public IEnumerable<ScrapedElement> ScrapFromContent(string content)
+        public IEnumerable<IScrapedElement> ScrapAllFromContent(string content)
         {
             foreach (var element in ElementsToScrap)
             {
@@ -24,12 +26,33 @@ namespace Core
 
                 HtmlNode htmlNode = htmlDoc.DocumentNode.SelectSingleNode(element.Path);
                 string parsedElement = ParseContent(htmlNode, element.Regex);
-
-                yield return new ScrapedElement()
+                if (element.Name.Contains("Date"))
                 {
-                    Name = element.Name,
-                    Content = parsedElement
-                };
+                    if (DateTime.TryParse(parsedElement, out DateTime dt))
+                    {
+                        yield return new ScrapedDateElement()
+                        {
+                            Name = element.Name,
+                            Content = dt
+                        };
+                    }
+                    else
+                    {
+                        yield return new ScrapedTextElement()
+                        {
+                            Name = element.Name,
+                            Content = parsedElement
+                        };
+                    }
+                }
+                else
+                {
+                    yield return new ScrapedTextElement()
+                    {
+                        Name = element.Name,
+                        Content = parsedElement
+                    };
+                }
             }
         }
 
