@@ -8,17 +8,17 @@ using Core.Models;
 
 namespace Core
 {
-    public class RequestHandler
+    internal class RequestHandler
     {
-        public string Page { get; private set; }
-        public int MaxTries { get; private set; }
-        public RequestHandler(string page, int maxTries)
+        internal string Page { get; private set; }
+        internal int MaxTries { get; private set; }
+        internal RequestHandler(string page, int maxTries)
         {
             Page = page;
             MaxTries = maxTries;
         }
 
-        public async Task<RequestResult> GetPageContent()
+        internal async Task<RequestResult> GetPageContent()
         {
             RequestResult requestResult = new RequestResult();
             while (MaxTries > 0)

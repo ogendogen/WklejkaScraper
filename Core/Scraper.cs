@@ -9,15 +9,15 @@ using HtmlAgilityPack;
 
 namespace Core
 {
-    public class Scraper
+    internal class Scraper
     {
-        public List<ElementToScrap> ElementsToScrap { get; set; }
-        public Scraper(List<ElementToScrap> elementsToScrap)
+        internal List<ElementToScrap> ElementsToScrap { get; set; }
+        internal Scraper(List<ElementToScrap> elementsToScrap)
         {
             ElementsToScrap = elementsToScrap;
         }
 
-        public IEnumerable<IScrapedElement> ScrapAllFromContent(string content)
+        internal IEnumerable<IScrapedElement> ScrapAllFromContent(string content)
         {
             foreach (var element in ElementsToScrap)
             {

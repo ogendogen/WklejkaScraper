@@ -13,8 +13,8 @@ namespace Core
     public class Crawler
     {
         public Config Config { get; private set; }
-        public RequestHandler RequestHandler { get; private set; }
-        public Scraper Scraper { get; set; }
+        internal RequestHandler RequestHandler { get; private set; }
+        internal Scraper Scraper { get; set; }
         public Crawler(Config config)
         {
             Config = config;
