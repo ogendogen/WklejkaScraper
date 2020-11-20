@@ -15,9 +15,29 @@ namespace Core
             Config = config;
         }
 
-        public List<Entry> Process()
+        public async Task<IEnumerable<Entry>> Process()
         {
+            for (int i=1; i<=Config.PagesAmount; i++)
+            {
+                var requestResult = await GetPageContent(Config.Site, Config.MaxTriesPerPage);
+
+            }
             throw new NotImplementedException();
+        }
+
+        private async Task<RequestResult> GetPageContent(string page, int maxTries)
+        {
+            RequestResult requestResult = new RequestResult();
+            while (maxTries > 0)
+            {
+                requestResult = await RequestPageContent(page);
+                if (requestResult.StatusCode == 200)
+                {
+                    return new RequestResult() { StatusCode = 200, Content = requestResult.Content};
+                }
+                maxTries--;
+            }
+            return requestResult;
         }
 
         private async Task<RequestResult> RequestPageContent(string page)
