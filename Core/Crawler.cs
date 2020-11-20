@@ -56,6 +56,15 @@ namespace Core
                         Date = date
                     };
                 }
+                else
+                {
+                    yield return new Entry()
+                    {
+                        ID = i,
+                        IsSuccessed = false,
+                        Content = "error"
+                    };
+                }
             }
         }
 
