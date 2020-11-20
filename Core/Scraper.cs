@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using Core.Models.Scraper;
 using HtmlAgilityPack;
 
@@ -37,7 +38,19 @@ namespace Core
 
         private string ParseContent(HtmlNode htmlNode, string regex="")
         {
-            throw new NotImplementedException();
+            string innerText = htmlNode.InnerText;
+            if (String.IsNullOrEmpty(regex))
+            {
+                return innerText;
+            }
+
+            Match match = Regex.Match(innerText, regex);
+            if (match.Success)
+            {
+                return match.Value;
+            }
+
+            return innerText;
         }
     }
 }
