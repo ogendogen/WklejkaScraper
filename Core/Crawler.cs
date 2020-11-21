@@ -48,7 +48,7 @@ namespace Core
         private void Configuration()
         {
             RequestHandler = new RequestHandler(Config.Site, Config.MaxTriesPerPage);
-            Scraper = new Scraper(Config.ElementsToScrap);
+            Scraper = new Scraper();
         }
     }
 }

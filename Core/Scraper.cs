@@ -11,70 +11,104 @@ namespace Core
 {
     internal class Scraper
     {
-        internal List<ElementToScrap> ElementsToScrap { get; set; }
-        internal Scraper(List<ElementToScrap> elementsToScrap)
+        internal Scraper()
         {
-            ElementsToScrap = elementsToScrap;
+
         }
 
         internal IEnumerable<IScrapedElement> ScrapAllFromContent(string content)
         {
-            foreach (var element in ElementsToScrap)
-            {
-                HtmlDocument htmlDoc = new HtmlDocument();
-                htmlDoc.LoadHtml(content);
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(content);
 
-                HtmlNode htmlNode = htmlDoc.DocumentNode.SelectSingleNode(element.Path);
+            // todo: chain of responsibility here
+            // "Content"
+            // text
+            HtmlNode htmlNode = htmlDoc.DocumentNode.SelectSingleNode("/html/body/div[2]/div[3]/table/tbody[1]/tr/td[2]/pre");
+            if (htmlNode == null)
+            {
+                // picture
+                htmlNode = htmlDoc.DocumentNode.SelectSingleNode("/html/body/div[2]/div[3]/table/tbody[2]/tr/td/img");
                 if (htmlNode == null)
                 {
-                    htmlNode = htmlDoc.DocumentNode.SelectSingleNode(element.AlternativePath);
-                }
-                string parsedElement = ParseContent(htmlNode, element.Regex);
-                if (element.Name.Contains("Date"))
-                {
-                    if (DateTime.TryParse(parsedElement, out DateTime dt))
+                    // password
+                    htmlNode = htmlDoc.DocumentNode.SelectSingleNode("/html/body/div[2]/div[3]/form");
+                    if (htmlNode == null)
                     {
-                        yield return new ScrapedDateElement()
+                        // deleted
+                        htmlNode = htmlDoc.DocumentNode.SelectSingleNode("/html/body/div[2]/div[3]/div[1]/form/fieldset/div[3]/div/textarea");
+                        if (htmlNode == null)
                         {
-                            Name = element.Name,
-                            Content = dt
-                        };
+                            yield return new ScrapedTextElement()
+                            {
+                                Name = "Content",
+                                Content = "error"
+                            };
+                        }
+                        else
+                        {
+                            yield return new ScrapedTextElement()
+                            {
+                                Name = "Content",
+                                Content = "deleted"
+                            };
+                        }
                     }
                     else
                     {
-                        yield return new ScrapedTextElement()
+                        if (htmlNode.InnerText.Contains("Podaj hasło:"))
                         {
-                            Name = element.Name,
-                            Content = parsedElement
-                        };
+                            yield return new ScrapedTextElement()
+                            {
+                                Name = "Content",
+                                Content = "password"
+                            };
+                        }
+                        else
+                        {
+                            yield return new ScrapedTextElement()
+                            {
+                                Name = "Content",
+                                Content = "error"
+                            };
+                        }
                     }
                 }
                 else
                 {
-                    yield return new ScrapedTextElement()
+                    yield return new ScrapedPictureElement()
                     {
-                        Name = element.Name,
-                        Content = parsedElement
+                        Name = "Content",
+                        Path = htmlNode.GetAttributeValue("src", "empty picture")
                     };
                 }
-            }
-        }
 
-        private string ParseContent(HtmlNode htmlNode, string regex="")
-        {
-            string innerText = htmlNode.InnerText;
-            if (String.IsNullOrEmpty(regex))
+            }
+            else
             {
-                return innerText;
+                yield return new ScrapedTextElement()
+                {
+                    Name = "Content",
+                    Content = htmlNode.InnerText
+                };
             }
 
-            Match match = Regex.Match(innerText, regex);
-            if (match.Success)
+            // "Author" and "Date"
+            htmlNode = htmlDoc.DocumentNode.SelectSingleNode("/html/body/div[2]/div[3]/table/thead/tr/td/table/tbody/tr/td[1]");
+            if (htmlNode != null)
             {
-                return match.Value;
-            }
+                yield return new ScrapedTextElement()
+                {
+                    Name = "Author",
+                    Content = htmlNode.InnerText
+                };
 
-            return innerText;
+                yield return new ScrapedTextElement()
+                {
+                    Name = "Date",
+                    Content = htmlNode.InnerText
+                };
+            }
         }
     }
 }
