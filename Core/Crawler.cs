@@ -32,53 +32,7 @@ namespace Core
                 {
                     var scrapedElements = Scraper.ScrapAllFromContent(requestResult.Content).ToList();
                     
-                    string author = String.Empty;
-                    string content = String.Empty;
-                    DateTime date = new DateTime();
-
-                    if (scrapedElements.FirstOrDefault(el => el.Name == "Author") is ScrapedTextElement textElement)
-                    {
-                        author = textElement.Content;
-                    }
-                    if (scrapedElements.FirstOrDefault(el => el.Name == "Content") is ScrapedTextElement textElement2)
-                    {
-                        content = textElement2.Content;
-                    }
-                    if (scrapedElements.FirstOrDefault(el => el.Name == "Date") is ScrapedDateElement dateElement)
-                    {
-                        date = dateElement.Content;
-                    }
-
-                    // todo: refactor me please
-                    if (content.Contains("wklejka/wyswietlImage.php"))
-                    {
-                        yield return new PictureEntry()
-                        {
-                            ID = i,
-                            Author = author,
-                            Date = date,
-                            PicturePath = content,
-                            Picture = new byte[1] { 0 },
-                            ReadPicture = "soon"
-                        };
-                    }
-                    else if (content.Contains("Podaj hasło:"))
-                    {
-                        yield return new PasswordProtectedEntry()
-                        {
-                            ID = i
-                        };
-                    }
-                    else
-                    {
-                        yield return new TextEntry()
-                        {
-                            ID = i,
-                            Author = author,
-                            Content = content,
-                            Date = date
-                        };
-                    }
+                    
                 }
                 else
                 {
