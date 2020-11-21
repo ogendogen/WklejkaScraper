@@ -4,6 +4,8 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using Core.Models.Scraper.Elements;
 using System.Threading.Tasks;
+using Core.Models.Crawler.Interfaces;
+using Core.Models.Crawler.Entries;
 
 namespace Tests
 {
@@ -31,7 +33,14 @@ namespace Tests
             Crawler crawler = new Crawler(config);
             await foreach (var entry in crawler.Process())
             {
-                Assert.AreEqual(entry.Content, "test1\ntest2\ntest3");
+                if (entry is TextEntry textEntry)
+                {
+                    Assert.AreEqual(textEntry.Content, "test1\ntest2\ntest3");
+                }
+                else
+                {
+                    Assert.Fail("Entry not text");
+                }
             }
         }
 
@@ -56,7 +65,7 @@ namespace Tests
         public async Task MultiplePagesTest(Config config)
         {
             Crawler crawler = new Crawler(config);
-            List<Entry> entries = new List<Entry>();
+            List<IEntry> entries = new List<IEntry>();
 
             await foreach (var entry in crawler.Process())
             {
