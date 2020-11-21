@@ -5,6 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Core.Models;
+using Core.Models.Crawler.Entries;
+using Core.Models.Crawler.Interfaces;
 using Core.Models.Scraper;
 using Core.Models.Scraper.Elements;
 
@@ -21,7 +23,7 @@ namespace Core
             Configuration();
         }
 
-        public async IAsyncEnumerable<Entry> Process()
+        public async IAsyncEnumerable<IEntry> Process()
         {
             for (int i=1; i<=Config.PagesAmount; i++)
             {
@@ -47,22 +49,43 @@ namespace Core
                         date = dateElement.Content;
                     }
 
-                    yield return new Entry()
+                    // todo: refactor me please
+                    if (content.Contains("wklejka/wyswietlImage.php"))
                     {
-                        ID = i,
-                        IsSucceded = true,
-                        Author = author,
-                        Content = content,
-                        Date = date
-                    };
+                        yield return new PictureEntry()
+                        {
+                            ID = i,
+                            Author = author,
+                            Date = date,
+                            PicturePath = content,
+                            Picture = new byte[1] { 0 },
+                            ReadPicture = "soon"
+                        };
+                    }
+                    else if (content.Contains("Podaj hasło:"))
+                    {
+                        yield return new PasswordProtectedEntry()
+                        {
+                            ID = i
+                        };
+                    }
+                    else
+                    {
+                        yield return new TextEntry()
+                        {
+                            ID = i,
+                            Author = author,
+                            Content = content,
+                            Date = date
+                        };
+                    }
                 }
                 else
                 {
-                    yield return new Entry()
+                    yield return new FailedEntry()
                     {
                         ID = i,
-                        IsSucceded = false,
-                        Content = "error"
+                        StatusCode = requestResult.StatusCode
                     };
                 }
             }
