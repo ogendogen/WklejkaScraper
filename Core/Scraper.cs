@@ -25,6 +25,10 @@ namespace Core
                 htmlDoc.LoadHtml(content);
 
                 HtmlNode htmlNode = htmlDoc.DocumentNode.SelectSingleNode(element.Path);
+                if (htmlNode == null)
+                {
+                    htmlNode = htmlDoc.DocumentNode.SelectSingleNode(element.AlternativePath);
+                }
                 string parsedElement = ParseContent(htmlNode, element.Regex);
                 if (element.Name.Contains("Date"))
                 {
