@@ -8,5 +8,7 @@ namespace Core.Models.Crawler.Entries
     public class PasswordProtectedEntry : IEntry
     {
         public int ID { get; set; }
+        public DateTime Date { get; set; }
+        public string Author { get; set; }
     }
 }

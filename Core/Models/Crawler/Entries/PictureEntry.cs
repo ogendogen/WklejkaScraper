@@ -8,6 +8,8 @@ namespace Core.Models.Crawler.Entries
     public class PictureEntry : IEntry
     {
         public int ID { get; set; }
+        public DateTime Date { get; set; }
+        public string Author { get; set; }
         public string PicturePath { get; set; }
         public byte[] Picture { get; set; }
         public string ReadPicture { get; set; }
