@@ -12,61 +12,89 @@ namespace Core
 {
     internal class DataParser
     {
-        internal Config Config { get; set; }
-        public DataParser(Config config)
+        internal DataParser()
         {
-            Config = config;
+
         }
 
-        internal IEntry GetEntryByScrapedElement(IScrapedElement scrapedElement, int id)
+        internal IEntry GetEntryByScrapedElements(List<IScrapedElement> scrapedElements, int id)
         {
-            string author = String.Empty;
             string content = String.Empty;
+            var contentElement = scrapedElements.FirstOrDefault(el => el.Name == "Content");
+            if (contentElement != null)
+            {
+                // determine type of content
+                if (contentElement is ScrapedPictureElement pictureElement)
+                {
+                    return new PictureEntry()
+                    {
+                        ID = id,
+                        PicturePath = pictureElement.Path
+                        // todo: OCR here
+                    };
+                }
+                else if (contentElement is ScrapedTextElement textElement)
+                {
+                    if (textElement.Content == "deleted")
+                    {
+                        return new DeletedEntry()
+                        {
+                            ID = id
+                        };
+                    }
+                    else if (textElement.Content == "error")
+                    {
+                        return new FailedEntry()
+                        {
+                            ID = id,
+                            StatusCode = -1
+                        };
+                    }
+                    else if (textElement.Content == "password")
+                    {
+                        return new PasswordProtectedEntry()
+                        {
+                            ID = id
+                        };
+                    }
+                    else
+                    {
+                        content = textElement.Content;
+                    }
+                }
+            }
+
+            string author = String.Empty;
+            var authorElement = scrapedElements.FirstOrDefault(el => el.Name == "Author");
+            if (authorElement != null && authorElement is ScrapedTextElement authorTextElement)
+            {
+                author = ParseAuthor(authorTextElement);
+            }
+
             DateTime date = new DateTime();
-
-            if (scrapedElement.Name == "Author" && scrapedElement is ScrapedTextElement textElement)
+            var dateElement = scrapedElements.FirstOrDefault(el => el.Name == "Date");
+            if (dateElement != null && dateElement is ScrapedTextElement dateTextElement)
             {
-                author = textElement.Content;
-            }
-            else if (scrapedElement.Name == "Content" && scrapedElement is ScrapedTextElement textElement2)
-            {
-                content = textElement2.Content;
-            }
-            else if (scrapedElement.Name == "Date" && scrapedElement is ScrapedDateElement dateElement)
-            {
-                date = dateElement.Content;
+                date = ParseDate(dateTextElement);
             }
 
-            // todo: refactor me please
-            if (content.Contains("wklejka/wyswietlImage.php"))
+            return new TextEntry()
             {
-                return new PictureEntry()
-                {
-                    ID = id,
-                    Author = author,
-                    Date = date,
-                    PicturePath = content,
-                    Picture = new byte[1] { 0 },
-                    ReadPicture = "soon"
-                };
-            }
-            else if (content.Contains("Podaj hasło:"))
-            {
-                return new PasswordProtectedEntry()
-                {
-                    ID = id
-                };
-            }
-            else
-            {
-                return new TextEntry()
-                {
-                    ID = id,
-                    Author = author,
-                    Content = content,
-                    Date = date
-                };
-            }
+                ID = id,
+                Author = author,
+                Date = date,
+                Content = content
+            };
+        }
+
+        private DateTime ParseDate(ScrapedTextElement dateTextElement)
+        {
+            throw new NotImplementedException();
+        }
+
+        private string ParseAuthor(ScrapedTextElement authorTextElement)
+        {
+            throw new NotImplementedException();
         }
     }
 }

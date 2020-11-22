@@ -17,6 +17,7 @@ namespace Core
         public Config Config { get; private set; }
         internal RequestHandler RequestHandler { get; private set; }
         internal Scraper Scraper { get; set; }
+        internal DataParser DataParser { get; set; }
         public Crawler(Config config)
         {
             Config = config;
@@ -31,8 +32,7 @@ namespace Core
                 if (requestResult.StatusCode == 200)
                 {
                     var scrapedElements = Scraper.ScrapAllFromContent(requestResult.Content).ToList();
-                    
-                    
+                    yield return DataParser.GetEntryByScrapedElements(scrapedElements, i);
                 }
                 else
                 {
@@ -49,6 +49,7 @@ namespace Core
         {
             RequestHandler = new RequestHandler(Config.Site, Config.MaxTriesPerPage);
             Scraper = new Scraper();
+            DataParser = new DataParser();
         }
     }
 }
