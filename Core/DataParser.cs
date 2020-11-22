@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Core.Models;
 using Core.Models.Crawler.Entries;
 using Core.Models.Crawler.Interfaces;
@@ -89,12 +90,33 @@ namespace Core
 
         private DateTime ParseDate(ScrapedTextElement dateTextElement)
         {
-            throw new NotImplementedException();
+            Match match = Regex.Match(dateTextElement.Content, @"\d{4}-\d{2}-\d{2} \d{2}:\d{2}");
+            if (match.Success)
+            {
+                string matchedValue = match.Value;
+
+                if (DateTime.TryParseExact(matchedValue, "yyyy-MM-dd HH:mm", null, System.Globalization.DateTimeStyles.None, out DateTime dt))
+                {
+                    return dt;
+                }
+            }
+
+            return new DateTime();
         }
 
         private string ParseAuthor(ScrapedTextElement authorTextElement)
         {
-            throw new NotImplementedException();
+            Match match = Regex.Match(authorTextElement.Content, @"~.+\(2");
+            if (match.Success)
+            {
+                string matchedValue = match.Value;
+                return matchedValue.TrimStart('~')
+                    .TrimEnd('2')
+                    .TrimEnd('(')
+                    .TrimEnd(' ');
+            }
+
+            return String.Empty;
         }
     }
 }
