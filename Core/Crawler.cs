@@ -26,7 +26,7 @@ namespace Core
 
         public async IAsyncEnumerable<IEntry> Process()
         {
-            for (int i=1; i<=Config.PagesAmount; i++)
+            for (int i=Config.StartPageId; i<=Config.EndPageId; i++)
             {
                 var requestResult = await RequestHandler.GetPageContent(i);
                 if (requestResult.StatusCode == 200)

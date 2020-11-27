@@ -17,8 +17,8 @@ namespace Tests
             {
                 yield return new Config() 
                 { 
-                    Site = "http://wklejto.pl/870065",
-                    PagesAmount = 1,
+                    StartPageId = 870065,
+                    EndPageId = 870065,
                     MaxTriesPerPage = 10,
                     ElementsToScrap = new List<ElementToScrap>() { new ElementToScrap() 
                         { Name = "Content", Path = "/html/body/div[2]/div[3]/table/tbody[1]/tr/td[2]/pre"}}
@@ -50,12 +50,11 @@ namespace Tests
             {
                 yield return new Config()
                 {
-                    Site = "http://wklejto.pl/X",
-                    PagesAmount = 5,
+                    StartPageId = 1,
+                    EndPageId = 5,
                     MaxTriesPerPage = 10,
                     ElementsToScrap = new List<ElementToScrap>() { new ElementToScrap() 
-                        { Name = "Content", Path = "/html/body/div[2]/div[3]/table/tbody[1]/tr/td[2]/pre"}},
-                    VariableSymbol = "X"
+                        { Name = "Content", Path = "/html/body/div[2]/div[3]/table/tbody[1]/tr/td[2]/pre"}}
                 };
             }
         }
