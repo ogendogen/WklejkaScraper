@@ -67,7 +67,23 @@ namespace Tests
                 entries.Add(entry);
             }
 
-            Assert.Fail("failed test - need to rebuild something");
+            Assert.AreEqual(entries.Count, 5);
+
+            Assert.IsInstanceOf(typeof(DeletedEntry), entries[0]);
+
+            Assert.IsInstanceOf(typeof(TextEntry), entries[1]);
+            TextEntry page2 = (TextEntry)entries[1];
+            StringAssert.Contains("TwojePC.pl | PC | Recenzje | Testy | Newsy | Download | Gry | Pliki - TWOJEPC", page2.Content);
+
+            Assert.IsInstanceOf(typeof(DeletedEntry), entries[2]);
+
+            Assert.IsInstanceOf(typeof(PictureEntry), entries[3]);
+            PictureEntry page4 = (PictureEntry)entries[3];
+            Assert.AreEqual(page4.PicturePath, "wklejka/wyswietlImage.php?id=51662&par=gif&9204");
+
+            Assert.IsInstanceOf(typeof(TextEntry), entries[4]);
+            TextEntry page5 = (TextEntry)entries[4];
+            StringAssert.Contains("testowy blalbablalbl", page5.Content);
         }
     }
 }
