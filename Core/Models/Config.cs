@@ -8,13 +8,8 @@ namespace Core.Models
 {
     public class Config
     {
-        public List<ElementToScrap> ElementsToScrap { get; set; }
         public int MaxTriesPerPage { get; set; }
         public int StartPageId { get; set; }
         public int EndPageId { get; set; }
-        public Config()
-        {
-            ElementsToScrap = new List<ElementToScrap>();
-        }
     }
 }

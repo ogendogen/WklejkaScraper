@@ -19,9 +19,7 @@ namespace Tests
                 { 
                     StartPageId = 870065,
                     EndPageId = 870065,
-                    MaxTriesPerPage = 10,
-                    ElementsToScrap = new List<ElementToScrap>() { new ElementToScrap() 
-                        { Name = "Content", Path = "/html/body/div[2]/div[3]/table/tbody[1]/tr/td[2]/pre"}}
+                    MaxTriesPerPage = 10
                 };
             }
         }
@@ -52,9 +50,7 @@ namespace Tests
                 {
                     StartPageId = 1,
                     EndPageId = 5,
-                    MaxTriesPerPage = 10,
-                    ElementsToScrap = new List<ElementToScrap>() { new ElementToScrap() 
-                        { Name = "Content", Path = "/html/body/div[2]/div[3]/table/tbody[1]/tr/td[2]/pre"}}
+                    MaxTriesPerPage = 10
                 };
             }
         }
