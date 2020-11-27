@@ -28,7 +28,7 @@ namespace Core
         {
             for (int i=1; i<=Config.PagesAmount; i++)
             {
-                var requestResult = await RequestHandler.GetPageContent();
+                var requestResult = await RequestHandler.GetPageContent(i);
                 if (requestResult.StatusCode == 200)
                 {
                     var scrapedElements = Scraper.ScrapAllFromContent(requestResult.Content).ToList();
@@ -47,7 +47,7 @@ namespace Core
 
         private void Configuration()
         {
-            RequestHandler = new RequestHandler(Config.Site, Config.MaxTriesPerPage);
+            RequestHandler = new RequestHandler(Config.MaxTriesPerPage);
             Scraper = new Scraper();
             DataParser = new DataParser();
         }

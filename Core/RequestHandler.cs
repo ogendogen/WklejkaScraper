@@ -10,20 +10,18 @@ namespace Core
 {
     internal class RequestHandler
     {
-        internal string Page { get; private set; }
         internal int MaxTries { get; private set; }
-        internal RequestHandler(string page, int maxTries)
+        internal RequestHandler(int maxTries)
         {
-            Page = page;
             MaxTries = maxTries;
         }
 
-        internal async Task<RequestResult> GetPageContent()
+        internal async Task<RequestResult> GetPageContent(int pageId)
         {
             RequestResult requestResult = new RequestResult();
             while (MaxTries > 0)
             {
-                requestResult = await RequestPageContent();
+                requestResult = await RequestPageContent(pageId);
                 if (requestResult.StatusCode == 200)
                 {
                     return new RequestResult() { StatusCode = 200, Content = requestResult.Content};
@@ -33,9 +31,9 @@ namespace Core
             return requestResult;
         }
 
-        private async Task<RequestResult> RequestPageContent()
+        private async Task<RequestResult> RequestPageContent(int pageId)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Page);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"http://wklejto.pl/{pageId}");
             request.Method = "GET";
             using (var response = await request.GetResponseAsync())
             using (var stream = response.GetResponseStream())
