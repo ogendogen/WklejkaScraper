@@ -33,16 +33,24 @@ namespace Core
 
         private async Task<RequestResult> RequestPageContent(int pageId)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"http://wklejto.pl/{pageId}");
-            request.Method = "GET";
-            using (var response = await request.GetResponseAsync())
-            using (var stream = response.GetResponseStream())
-            using (var reader = new StreamReader(stream))
+            try
             {
-                HttpStatusCode statusCode = ((HttpWebResponse)response).StatusCode;
-                string contents = reader.ReadToEnd();
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"http://wklejto.pl/{pageId}");
+                request.Method = "GET";
+                using (var response = await request.GetResponseAsync())
+                using (var stream = response.GetResponseStream())
+                using (var reader = new StreamReader(stream))
+                {
+                    HttpStatusCode statusCode = ((HttpWebResponse)response).StatusCode;
+                    string contents = reader.ReadToEnd();
 
-                return new RequestResult() { StatusCode = (int)statusCode, Content = contents};
+                    return new RequestResult() { StatusCode = (int)statusCode, Content = contents};
+                }
+            }
+            catch (WebException e)
+            {
+                HttpWebResponse response = (HttpWebResponse)e.Response;
+                return new RequestResult() { StatusCode = (int)response.StatusCode};
             }
         }
     }
