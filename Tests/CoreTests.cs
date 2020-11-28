@@ -6,6 +6,7 @@ using Core.Models.Scraper.Elements;
 using System.Threading.Tasks;
 using Core.Models.Crawler.Interfaces;
 using Core.Models.Crawler.Entries;
+using System.Linq;
 
 namespace Tests
 {
@@ -84,6 +85,62 @@ namespace Tests
             Assert.IsInstanceOf(typeof(TextEntry), entries[4]);
             TextEntry page5 = (TextEntry)entries[4];
             StringAssert.Contains("testowy blalbablalbl", page5.Content);
+        }
+
+        public static IEnumerable<Config> PasswordPageConfig
+        {
+            get
+            {
+                yield return new Config()
+                {
+                    StartPageId = 16,
+                    EndPageId = 16,
+                    MaxTriesPerPage = 10
+                };
+            }
+        }
+
+        [Test]
+        [TestCaseSource("PasswordPageConfig")]
+        public async Task PasswordPageTest(Config config)
+        {
+            Crawler crawler = new Crawler(config);
+            List<IEntry> entries = new List<IEntry>();
+
+            await foreach (var entry in crawler.Process())
+            {
+                entries.Add(entry);
+            }
+
+            Assert.IsInstanceOf(typeof(PasswordProtectedEntry), entries.First());
+        }
+
+        public static IEnumerable<Config> FailedPageConfig
+        {
+            get
+            {
+                yield return new Config()
+                {
+                    StartPageId = 999999999,
+                    EndPageId = 999999999,
+                    MaxTriesPerPage = 10
+                };
+            }
+        }
+
+        [Test]
+        [TestCaseSource("FailedPageConfig")]
+        public async Task FailedPageTest(Config config)
+        {
+            Crawler crawler = new Crawler(config);
+            List<IEntry> entries = new List<IEntry>();
+
+            await foreach (var entry in crawler.Process())
+            {
+                entries.Add(entry);
+            }
+
+            Assert.IsInstanceOf(typeof(FailedEntry), entries.First());
         }
     }
 }
