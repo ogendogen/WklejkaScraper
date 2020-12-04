@@ -113,7 +113,8 @@ namespace Core
                 return matchedValue.TrimStart('~')
                     .TrimEnd('2')
                     .TrimEnd('(')
-                    .TrimEnd(' ');
+                    .TrimEnd(' ')
+                    .TrimEnd('\'');
             }
 
             return String.Empty;

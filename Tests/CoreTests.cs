@@ -169,16 +169,16 @@ namespace Tests
             }
 
             var id50 = (TextEntry)entries.First(entry => entry.ID == 50);
-            Assert.AreEqual(id50.Author, @"~\\'");
-            Assert.AreEqual(id50.Date.ToString("yyyy-MM-dd HH:mm"), "2007-05-08 09:31");
+            Assert.AreEqual("\\\\", id50.Author);
+            Assert.AreEqual("2007-05-08 09:31", id50.Date.ToString("yyyy-MM-dd HH:mm"));
 
             var id51 = (TextEntry)entries.First(entry => entry.ID == 51);
-            Assert.AreEqual(id50.Author, @"~Borys'");
-            Assert.AreEqual(id50.Date.ToString("yyyy-MM-dd HH:mm"), "2007-05-08 09:56");
+            Assert.AreEqual("Borys", id51.Author);
+            Assert.AreEqual("2007-05-08 09:56", id51.Date.ToString("yyyy-MM-dd HH:mm"));
 
             var id52 = (TextEntry)entries.First(entry => entry.ID == 52);
-            Assert.AreEqual(id50.Author, @"~jamal'");
-            Assert.AreEqual(id50.Date.ToString("yyyy-MM-dd HH:mm"), "2007-05-08 11:18");
+            Assert.AreEqual(@"jamal", id52.Author);
+            Assert.AreEqual("2007-05-08 11:18", id52.Date.ToString("yyyy-MM-dd HH:mm"));
         }
     }
 }
