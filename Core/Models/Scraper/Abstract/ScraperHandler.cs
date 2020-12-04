@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Core.Models.Scraper.Elements;
 using Core.Models.Scraper.Interfaces;
 using HtmlAgilityPack;
 
@@ -25,7 +26,11 @@ namespace Core.Models.Scraper.Abstract
             }
             else
             {
-                return null;
+                return new ScrapedTextElement()
+                {
+                    Name = name,
+                    Content = "error"
+                };
             }
         }
     }
