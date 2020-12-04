@@ -142,5 +142,43 @@ namespace Tests
 
             Assert.IsInstanceOf(typeof(FailedEntry), entries.First());
         }
+
+        public static IEnumerable<Config> AuthorAndDateConfig
+        {
+            get
+            {
+                yield return new Config()
+                {
+                    StartPageId = 50,
+                    EndPageId = 52,
+                    MaxTriesPerPage = 10
+                };
+            }
+        }
+
+        [Test]
+        [TestCaseSource("AuthorAndDateConfig")]
+        public async Task AuthorAndDateTest(Config config)
+        {
+            Crawler crawler = new Crawler(config);
+            List<IEntry> entries = new List<IEntry>();
+
+            await foreach (var entry in crawler.Process())
+            {
+                entries.Add(entry);
+            }
+
+            var id50 = (TextEntry)entries.First(entry => entry.ID == 50);
+            Assert.AreEqual(id50.Author, @"~\\'");
+            Assert.AreEqual(id50.Date.ToString("yyyy-MM-dd HH:mm"), "2007-05-08 09:31");
+
+            var id51 = (TextEntry)entries.First(entry => entry.ID == 51);
+            Assert.AreEqual(id50.Author, @"~Borys'");
+            Assert.AreEqual(id50.Date.ToString("yyyy-MM-dd HH:mm"), "2007-05-08 09:56");
+
+            var id52 = (TextEntry)entries.First(entry => entry.ID == 52);
+            Assert.AreEqual(id50.Author, @"~jamal'");
+            Assert.AreEqual(id50.Date.ToString("yyyy-MM-dd HH:mm"), "2007-05-08 11:18");
+        }
     }
 }
