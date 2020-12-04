@@ -12,7 +12,7 @@ namespace Core.ScraperHandlers
     {
         public override IScrapedElement Handle(HtmlDocument htmlDoc, string name)
         {
-            HtmlNode htmlNode = htmlDoc.DocumentNode.SelectSingleNode("/html/body/div[2]/div[3]/table/tbody[1]/tr/tbody/tr/td/img");
+            HtmlNode htmlNode = htmlDoc.DocumentNode.SelectSingleNode("/html/body/div[2]/div[3]/div[1]/form/fieldset/div[3]/div/textarea");
             if (htmlNode != null)
             {
                 return new ScrapedTextElement()
