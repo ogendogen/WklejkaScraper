@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using Core.Models.Scraper;
 using Core.Models.Scraper.Elements;
 using Core.Models.Scraper.Interfaces;
+using Core.ScraperHandlers;
 using HtmlAgilityPack;
 
 namespace Core
@@ -21,94 +22,37 @@ namespace Core
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(content);
 
-            // todo: chain of responsibility here
-            // "Content"
-            // text
-            HtmlNode htmlNode = htmlDoc.DocumentNode.SelectSingleNode("/html/body/div[2]/div[3]/table/tbody[1]/tr/td[2]/pre");
-            if (htmlNode == null)
-            {
-                // picture
-                htmlNode = htmlDoc.DocumentNode.SelectSingleNode("/html/body/div[2]/div[3]/table/tbody[1]/tr/tbody/tr/td/img");
-                if (htmlNode == null)
-                {
-                    // password
-                    htmlNode = htmlDoc.DocumentNode.SelectSingleNode("/html/body/div[2]/div[3]/form");
-                    if (htmlNode == null)
-                    {
-                        // deleted
-                        htmlNode = htmlDoc.DocumentNode.SelectSingleNode("/html/body/div[2]/div[3]/div[1]/form/fieldset/div[3]/div/textarea");
-                        if (htmlNode == null)
-                        {
-                            yield return new ScrapedTextElement()
-                            {
-                                Name = "Content",
-                                Content = "error"
-                            };
-                        }
-                        else
-                        {
-                            yield return new ScrapedTextElement()
-                            {
-                                Name = "Content",
-                                Content = "deleted"
-                            };
-                        }
-                    }
-                    else
-                    {
-                        if (htmlNode.InnerText.Contains("Podaj hasło:"))
-                        {
-                            yield return new ScrapedTextElement()
-                            {
-                                Name = "Content",
-                                Content = "password"
-                            };
-                        }
-                        else
-                        {
-                            yield return new ScrapedTextElement()
-                            {
-                                Name = "Content",
-                                Content = "error"
-                            };
-                        }
-                    }
-                }
-                else
-                {
-                    yield return new ScrapedPictureElement()
-                    {
-                        Name = "Content",
-                        Path = htmlNode.GetAttributeValue("src", "empty picture")
-                    };
-                }
+            yield return GetContent(htmlDoc);
+            yield return GetAuthor(htmlDoc);
+            yield return GetDate(htmlDoc);
+        }
+        
+        private IScrapedElement GetContent(HtmlDocument htmlDoc)
+        {
+            var textHandler = new TextHandler();
+            var pictureHandler = new PictureHandler();
+            var passwordHandler = new PasswordHandler();
+            var deletedHandler = new DeletedHandler();
 
-            }
-            else
-            {
-                yield return new ScrapedTextElement()
-                {
-                    Name = "Content",
-                    Content = htmlNode.InnerText
-                };
-            }
+            textHandler.SetNext(pictureHandler)
+                .SetNext(passwordHandler)
+                .SetNext(deletedHandler);
 
-            // "Author" and "Date"
-            htmlNode = htmlDoc.DocumentNode.SelectSingleNode("/html/body/div[2]/div[3]/table/thead/tr/td/table/tbody/tr/td[1]");
-            if (htmlNode != null)
-            {
-                yield return new ScrapedTextElement()
-                {
-                    Name = "Author",
-                    Content = htmlNode.InnerText
-                };
+            return textHandler.Handle(htmlDoc);
+        }
 
-                yield return new ScrapedTextElement()
-                {
-                    Name = "Date",
-                    Content = htmlNode.InnerText
-                };
-            }
+        private IScrapedElement GetAuthor(HtmlDocument htmlDoc)
+        {
+            var authorHandler = new AuthorHandler();
+
+            return authorHandler.Handle(htmlDoc);
+        }
+
+        private IScrapedElement GetDate(HtmlDocument htmlDoc)
+        {
+            var dateHandler = new DateHandler();
+
+            return dateHandler.Handle(htmlDoc);
         }
     }
 }
