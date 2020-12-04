@@ -38,21 +38,21 @@ namespace Core
                 .SetNext(passwordHandler)
                 .SetNext(deletedHandler);
 
-            return textHandler.Handle(htmlDoc);
+            return textHandler.Handle(htmlDoc, "Content");
         }
 
         private IScrapedElement GetAuthor(HtmlDocument htmlDoc)
         {
             var authorHandler = new AuthorHandler();
 
-            return authorHandler.Handle(htmlDoc);
+            return authorHandler.Handle(htmlDoc, "Author");
         }
 
         private IScrapedElement GetDate(HtmlDocument htmlDoc)
         {
             var dateHandler = new DateHandler();
 
-            return dateHandler.Handle(htmlDoc);
+            return dateHandler.Handle(htmlDoc, "Date");
         }
     }
 }

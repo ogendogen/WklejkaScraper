@@ -8,6 +8,6 @@ namespace Core.Models.Scraper.Interfaces
     interface IScraperHandler
     {
         IScraperHandler SetNext(IScraperHandler handler);
-        IScrapedElement Handle(HtmlDocument request);
+        IScrapedElement Handle(HtmlDocument request, string name);
     }
 }

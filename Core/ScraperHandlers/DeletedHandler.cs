@@ -10,19 +10,19 @@ namespace Core.ScraperHandlers
 {
     internal class DeletedHandler : ScraperHandler
     {
-        public override IScrapedElement Handle(HtmlDocument htmlDoc)
+        public override IScrapedElement Handle(HtmlDocument htmlDoc, string name)
         {
             HtmlNode htmlNode = htmlDoc.DocumentNode.SelectSingleNode("/html/body/div[2]/div[3]/table/tbody[1]/tr/tbody/tr/td/img");
             if (htmlNode != null)
             {
                 return new ScrapedTextElement()
                 {
-                    Name = "Content",
+                    Name = name,
                     Content = "deleted"
                 };
             }
 
-            return base.Handle(htmlDoc);
+            return base.Handle(htmlDoc, name);
         }
     }
 }

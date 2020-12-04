@@ -17,11 +17,11 @@ namespace Core.Models.Scraper.Abstract
             return handler;
         }
         
-        public virtual IScrapedElement Handle(HtmlDocument htmlDoc)
+        public virtual IScrapedElement Handle(HtmlDocument htmlDoc, string name)
         {
             if (_nextHandler != null)
             {
-                return _nextHandler.Handle(htmlDoc);
+                return _nextHandler.Handle(htmlDoc, name);
             }
             else
             {
