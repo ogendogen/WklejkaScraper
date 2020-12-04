@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using Core.Models.Scraper.Abstract;
 using Core.Models.Scraper.Elements;
+using Core.Models.Scraper.Interfaces;
 using HtmlAgilityPack;
 
 namespace Core.ScraperHandlers
 {
     internal class PictureHandler : ScraperHandler
     {
-        public override object Handle(object request)
+        public override IScrapedElement Handle(HtmlDocument htmlDoc)
         {
-            HtmlDocument htmlDoc = (HtmlDocument)request;
             HtmlNode htmlNode = htmlDoc.DocumentNode.SelectSingleNode("/html/body/div[2]/div[3]/table/tbody[1]/tr/tbody/tr/td/img");
             if (htmlNode != null)
             {
@@ -22,7 +22,7 @@ namespace Core.ScraperHandlers
                 };
             }
             
-            return base.Handle(request);
+            return base.Handle(htmlDoc);
         }
     }
 }

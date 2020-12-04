@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Core.Models.Scraper.Interfaces;
+using HtmlAgilityPack;
 
 namespace Core.Models.Scraper.Abstract
 {
@@ -16,7 +17,7 @@ namespace Core.Models.Scraper.Abstract
             return handler;
         }
         
-        public virtual object Handle(object request)
+        public virtual IScrapedElement Handle(HtmlDocument request)
         {
             if (_nextHandler != null)
             {
