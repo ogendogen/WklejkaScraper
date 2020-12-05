@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Models.Crawler.Interfaces
+namespace Core.Models.DataParser.Interfaces
 {
     public interface IEntry
     {

@@ -5,8 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Core.Models;
-using Core.Models.Crawler.Entries;
-using Core.Models.Crawler.Interfaces;
+using Core.Models.DataParser.Entries;
+using Core.Models.DataParser.Interfaces;
 using Core.Models.Scraper;
 using Core.Models.Scraper.Elements;
 

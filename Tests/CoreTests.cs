@@ -4,8 +4,8 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using Core.Models.Scraper.Elements;
 using System.Threading.Tasks;
-using Core.Models.Crawler.Interfaces;
-using Core.Models.Crawler.Entries;
+using Core.Models.DataParser.Interfaces;
+using Core.Models.DataParser.Entries;
 using System.Linq;
 
 namespace Tests

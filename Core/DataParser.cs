@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Core.Models;
-using Core.Models.Crawler.Entries;
-using Core.Models.Crawler.Interfaces;
+using Core.Models.DataParser.Entries;
+using Core.Models.DataParser.Interfaces;
 using Core.Models.Scraper.Elements;
 using Core.Models.Scraper.Interfaces;
 

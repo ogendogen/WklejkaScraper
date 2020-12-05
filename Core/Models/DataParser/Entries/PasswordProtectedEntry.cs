@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Core.Models.Crawler.Interfaces;
+using Core.Models.DataParser.Interfaces;
 
-namespace Core.Models.Crawler.Entries
+namespace Core.Models.DataParser.Entries
 {
     public class PasswordProtectedEntry : IEntry
     {
