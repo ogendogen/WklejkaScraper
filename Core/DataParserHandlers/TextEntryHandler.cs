@@ -13,7 +13,7 @@ namespace Core.DataParserHandlers
     {
         public override IEntry Handle(IScrapedElement scrapedElement, int id)
         {
-            if (scrapedElement is ScrapedTextElement textElement && textElement.Content.Contains("html"))
+            if (scrapedElement is ScrapedTextElement textElement && !String.IsNullOrEmpty(textElement.Content))
             {
                 return new TextEntry()
                 {
