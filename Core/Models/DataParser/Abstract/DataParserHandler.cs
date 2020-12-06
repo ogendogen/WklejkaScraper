@@ -18,16 +18,17 @@ namespace Core.Models.DataParser.Abstract
             return handler;
         }
         
-        public virtual IEntry Handle(IScrapedElement scrapedElement)
+        public virtual IEntry Handle(IScrapedElement scrapedElement, int id)
         {
             if (_nextHandler != null)
             {
-                return _nextHandler.Handle(scrapedElement);
+                return _nextHandler.Handle(scrapedElement, id);
             }
             else
             {
                 return new FailedEntry()
                 {
+                    ID = id,
                     StatusCode = -1
                 };
             }

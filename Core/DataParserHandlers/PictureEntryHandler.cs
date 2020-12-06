@@ -11,18 +11,19 @@ namespace Core.DataParserHandlers
 {
     internal class PictureEntryHandler : DataParserHandler
     {
-        public override IEntry Handle(IScrapedElement scrapedElement)
+        public override IEntry Handle(IScrapedElement scrapedElement, int id)
         {
             if (scrapedElement is ScrapedPictureElement pictureElement)
             {
                 return new PictureEntry()
                 {
+                    ID = id,
                     PicturePath = pictureElement.Path
                     // todo: OCR here
                 };
             }
 
-            return base.Handle(scrapedElement);
+            return base.Handle(scrapedElement, id);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Core.DataParserHandlers
 {
     internal class TextEntryHandler : DataParserHandler
     {
-        public override IEntry Handle(IScrapedElement scrapedElement)
+        public override IEntry Handle(IScrapedElement scrapedElement, int id)
         {
             throw new NotImplementedException();
         }

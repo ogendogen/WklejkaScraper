@@ -11,17 +11,17 @@ namespace Core.DataParserHandlers
 {
     internal class ErrorEntryHandler : DataParserHandler
     {
-        public override IEntry Handle(IScrapedElement scrapedElement)
+        public override IEntry Handle(IScrapedElement scrapedElement, int id)
         {
             if (scrapedElement is ScrapedTextElement textElement && textElement.Content == "error")
             {
                 return new FailedEntry()
                 {
-                    
+                    ID = id
                 };
             }
 
-            return base.Handle(scrapedElement);
+            return base.Handle(scrapedElement, id);
         }
     }
 }

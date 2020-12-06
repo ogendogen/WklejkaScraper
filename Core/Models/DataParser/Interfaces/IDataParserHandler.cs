@@ -8,6 +8,6 @@ namespace Core.Models.DataParser.Interfaces
     interface IDataParserHandler
     {
         IDataParserHandler SetNext(IDataParserHandler handler);
-        IEntry Handle(IScrapedElement scrapedElement);
+        IEntry Handle(IScrapedElement scrapedElement, int id);
     }
 }

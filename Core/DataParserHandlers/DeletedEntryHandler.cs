@@ -11,17 +11,17 @@ namespace Core.DataParserHandlers
 {
     internal class DeletedEntryHandler : DataParserHandler
     {
-        public override IEntry Handle(IScrapedElement scrapedElement)
+        public override IEntry Handle(IScrapedElement scrapedElement, int id)
         {
             if (scrapedElement is ScrapedTextElement textElement && textElement.Content == "deleted")
             {
                 return new DeletedEntry()
                 {
-                    
+                    ID = id
                 };
             }
 
-            return base.Handle(scrapedElement);
+            return base.Handle(scrapedElement, id);
         }
     }
 }
