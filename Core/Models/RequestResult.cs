@@ -4,11 +4,9 @@ using System.Text;
 
 namespace Core.Models
 {
-    public class Entry
+    public class RequestResult
     {
-        public int ID { get; set; }
-        public DateTime Date { get; set; }
-        public string Author { get; set; }
+        public int StatusCode { get; set; }
         public string Content { get; set; }
     }
 }
