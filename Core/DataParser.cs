@@ -21,8 +21,6 @@ namespace Core
 
         internal IEntry GetEntryByScrapedElements(List<IScrapedElement> scrapedElements, int id)
         {
-            string content = String.Empty;
-            
             IEntry entry = GetContent(scrapedElements, id);
             string author = GetAuthor(scrapedElements);
             DateTime date = GetDate(scrapedElements);
