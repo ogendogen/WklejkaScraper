@@ -14,9 +14,11 @@ namespace Core
 {
     internal class DataParser
     {
-        internal DataParser()
-        {
+        public Config Config { get; }
 
+        internal DataParser(Config config)
+        {
+            Config = config;
         }
 
         internal IEntry GetEntryByScrapedElements(List<IScrapedElement> scrapedElements, int id)
@@ -46,7 +48,7 @@ namespace Core
         {
             var contentElement = scrapedElements.FirstOrDefault(el => el.Name == "Content");
             
-            var pictureHandler = new PictureEntryHandler();
+            var pictureHandler = new PictureEntryHandler(Config.MaxTriesPerPage);
             var deletedHandler = new DeletedEntryHandler();
             var passwordHandler = new PasswordEntryHandler();
             var errorHandler = new ErrorEntryHandler();
