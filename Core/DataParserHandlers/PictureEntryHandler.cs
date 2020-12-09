@@ -27,8 +27,8 @@ namespace Core.DataParserHandlers
                 {
                     ID = id,
                     PicturePath = pictureElement.Path,
-                    Picture = pictureBytes
-                    // todo: OCR here
+                    Picture = pictureBytes,
+                    ReadPicture = OCR.ProcessImage(pictureBytes).Result
                 };
             }
 

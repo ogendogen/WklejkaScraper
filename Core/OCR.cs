@@ -9,9 +9,10 @@ namespace Core
     internal static class OCR
     {
         private static readonly HttpClient client = new HttpClient();
-        internal static async Task<string> ProcessImage(string apiKey, byte[] image)
+        internal static string ApiKey { get; set; }
+        internal static async Task<string> ProcessImage(byte[] image)
         {
-            client.DefaultRequestHeaders.Add("apikey", apiKey);
+            client.DefaultRequestHeaders.Add("apikey", ApiKey);
             var values = new Dictionary<string, string>
             {
                 { "base64Image", Convert.ToBase64String(image) },
