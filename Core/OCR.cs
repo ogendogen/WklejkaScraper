@@ -10,12 +10,12 @@ namespace Core
     {
         private static readonly HttpClient client = new HttpClient();
         internal static string ApiKey { get; set; }
-        internal static async Task<string> ProcessImage(byte[] image)
+        internal static async Task<string> ProcessImage(string imageUrl)
         {
             client.DefaultRequestHeaders.Add("apikey", ApiKey);
             var values = new Dictionary<string, string>
             {
-                { "base64Image", Convert.ToBase64String(image) },
+                { "url", "http://www.wklejto.pl/" + imageUrl },
                 { "language", "pol" },
                 { "filetype", "gif" }
             };

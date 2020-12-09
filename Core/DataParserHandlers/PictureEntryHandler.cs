@@ -28,7 +28,7 @@ namespace Core.DataParserHandlers
                     ID = id,
                     PicturePath = pictureElement.Path,
                     Picture = pictureBytes,
-                    ReadPicture = OCR.ProcessImage(pictureBytes).Result
+                    OCRResponse = OCR.ProcessImage(pictureElement.Path).Result
                 };
             }
 
