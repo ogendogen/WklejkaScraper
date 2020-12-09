@@ -18,29 +18,31 @@ namespace Core
 
         internal async Task<RequestResult> GetPageContent(int pageId)
         {
+            int maxTriesTmp = MaxTries;
             RequestResult requestResult = new RequestResult();
-            while (MaxTries > 0)
+            while (maxTriesTmp > 0)
             {
                 requestResult = await RequestPageContent(pageId);
                 if (requestResult.StatusCode == 200)
                 {
                     return new RequestResult() { StatusCode = 200, Content = requestResult.Content};
                 }
-                MaxTries--;
+                maxTriesTmp--;
             }
             return requestResult;
         }
 
         internal byte[] GetImage(string imageUrl)
         {
-            while (MaxTries > 0)
+            int maxTriesTmp = MaxTries;
+            while (maxTriesTmp > 0)
             {
                 var byteRequestResult = RequestImage(imageUrl);
                 if (byteRequestResult.StatusCode == 200)
                 {
                     return byteRequestResult.Content;
                 }
-                MaxTries--;
+                maxTriesTmp--;
             }
             
             return new byte[1] { 0 };
