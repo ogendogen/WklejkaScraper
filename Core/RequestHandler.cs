@@ -31,6 +31,21 @@ namespace Core
             return requestResult;
         }
 
+        internal byte[] GetImage(string imageUrl)
+        {
+            while (MaxTries > 0)
+            {
+                var byteRequestResult = RequestImage(imageUrl);
+                if (byteRequestResult.StatusCode == 200)
+                {
+                    return byteRequestResult.Content;
+                }
+                MaxTries--;
+            }
+            
+            return new byte[1] { 0 };
+        }
+
         private async Task<RequestResult> RequestPageContent(int pageId)
         {
             try
@@ -51,6 +66,31 @@ namespace Core
             {
                 HttpWebResponse response = (HttpWebResponse)e.Response;
                 return new RequestResult() { StatusCode = (int)response.StatusCode};
+            }
+        }
+
+        private ByteRequestResult RequestImage(string imageUrl)
+        {
+            try
+            {
+                using (WebClient webClient = new WebClient())
+                {
+                    byte[] imageBytes = webClient.DownloadData("http://www.google.com/images/logos/ps_logo2.png");
+                    
+                    return new ByteRequestResult()
+                    {
+                        Content = imageBytes,
+                        StatusCode = 200
+                    };
+                }
+            }
+            catch (WebException e)
+            {
+                HttpWebResponse response = (HttpWebResponse)e.Response;
+                return new ByteRequestResult()
+                {
+                    StatusCode = (int)response.StatusCode
+                };
             }
         }
     }

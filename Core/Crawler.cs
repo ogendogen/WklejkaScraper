@@ -49,7 +49,8 @@ namespace Core
         {
             RequestHandler = new RequestHandler(Config.MaxTriesPerPage);
             Scraper = new Scraper();
-            DataParser = new DataParser();
+            DataParser = new DataParser(Config);
+            OCR.ApiKey = Config.OCRApiKey;
         }
     }
 }

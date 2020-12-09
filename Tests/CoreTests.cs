@@ -180,5 +180,35 @@ namespace Tests
             Assert.AreEqual(@"jamal", id52.Author);
             Assert.AreEqual("2007-05-08 11:18", id52.Date.ToString("yyyy-MM-dd HH:mm"));
         }
+
+        public static IEnumerable<Config> OCRTestConfig
+        {
+            get
+            {
+                yield return new Config()
+                {
+                    StartPageId = 4,
+                    EndPageId = 4,
+                    MaxTriesPerPage = 10,
+                    OCRApiKey = "34855a945e88957"
+                };
+            }
+        }
+
+        [Test]
+        [TestCaseSource("OCRTestConfig")]
+        public async Task OCRTest(Config config)
+        {
+            Crawler crawler = new Crawler(config);
+            List<IEntry> entries = new List<IEntry>();
+
+            await foreach (var entry in crawler.Process())
+            {
+                entries.Add(entry);
+            }
+
+            var picture = (PictureEntry)entries.First();
+            StringAssert.Contains("Image dimensions are too large!", picture.OCRResponse);
+        }
     }
 }

@@ -12,6 +12,6 @@ namespace Core.Models.DataParser.Entries
         public string Author { get; set; }
         public string PicturePath { get; set; }
         public byte[] Picture { get; set; }
-        public string ReadPicture { get; set; }
+        public string OCRResponse { get; set; }
     }
 }
