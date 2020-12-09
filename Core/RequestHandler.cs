@@ -57,7 +57,7 @@ namespace Core
                 using (var reader = new StreamReader(stream))
                 {
                     HttpStatusCode statusCode = ((HttpWebResponse)response).StatusCode;
-                    string contents = reader.ReadToEnd();
+                    string contents = await reader.ReadToEndAsync();
 
                     return new RequestResult() { StatusCode = (int)statusCode, Content = contents};
                 }
