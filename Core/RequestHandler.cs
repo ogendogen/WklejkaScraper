@@ -75,7 +75,7 @@ namespace Core
             {
                 using (WebClient webClient = new WebClient())
                 {
-                    byte[] imageBytes = webClient.DownloadData("http://www.google.com/images/logos/ps_logo2.png");
+                    byte[] imageBytes = webClient.DownloadData(imageUrl);
                     
                     return new ByteRequestResult()
                     {
