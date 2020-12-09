@@ -27,6 +27,10 @@ namespace Core
                 {
                     return new RequestResult() { StatusCode = 200, Content = requestResult.Content};
                 }
+                else if (requestResult.StatusCode == 404)
+                {
+                    return new RequestResult() { StatusCode = 404, Content = ""};
+                }
                 maxTriesTmp--;
             }
             return requestResult;
