@@ -75,7 +75,7 @@ namespace Core
             {
                 using (WebClient webClient = new WebClient())
                 {
-                    byte[] imageBytes = webClient.DownloadData(imageUrl);
+                    byte[] imageBytes = webClient.DownloadData($"http://wklej.to/{imageUrl}");
                     
                     return new ByteRequestResult()
                     {
