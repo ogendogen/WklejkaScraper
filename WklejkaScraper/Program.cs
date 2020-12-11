@@ -43,7 +43,6 @@ namespace WklejkaScraper
                 
                 counter++;
                 percentage = (counter / maxPages) * 100;
-
             }
 
             watch.Stop();
