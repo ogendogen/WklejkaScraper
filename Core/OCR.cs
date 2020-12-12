@@ -10,9 +10,12 @@ namespace Core
     {
         private static readonly HttpClient client = new HttpClient();
         internal static string ApiKey { get; set; }
-        internal static async Task<string> ProcessImage(string imageUrl)
+        static OCR()
         {
             client.DefaultRequestHeaders.Add("apikey", ApiKey);
+        }
+        internal static async Task<string> ProcessImage(string imageUrl)
+        {
             var values = new Dictionary<string, string>
             {
                 { "url", "http://www.wklejto.pl/" + imageUrl },
