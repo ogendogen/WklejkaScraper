@@ -22,6 +22,7 @@ namespace Core
         internal DataParser DataParser { get; set; }
         public List<Thread> Threads { get; set; }
         public List<IEntry> ProcessedEntries { get; set; }
+        public List<Task> Tasks { get; set; }
 
         private object _locker = new object();
         //private ManualResetEvent _resetEvent = new ManualResetEvent(false);
@@ -34,6 +35,7 @@ namespace Core
             ProcessedEntries = new List<IEntry>();
             _resetEvents = new List<ManualResetEvent>();
             Threads = new List<Thread>();
+            Tasks = new List<Task>();
         }
 
         public void PrepareThreads(int threadsAmount)
@@ -46,7 +48,14 @@ namespace Core
 
             for (int i=1; i<=threadsAmount; i++)
             {
-                Threads.Add(new Thread(async () => await Process(currentId, currentId + chunkSize)));
+                Threads.Add(new Thread(() => 
+                {
+                    Task task = Task.Run(async () =>
+                    {
+                        await Process(currentId, currentId + chunkSize);
+                    });
+                    Tasks.Add(task);
+                }));
                 currentId += chunkSize;
                 currentId++;
             }
@@ -59,11 +68,13 @@ namespace Core
                 thread.Start();
             }
 
-            int expectedAmount = Config.EndPageId - Config.StartPageId + 1;
-            while (ProcessedEntries.Count < expectedAmount)
-            {
-                Thread.Sleep(1000);
-            }
+            Task.WaitAll(Tasks.ToArray());
+
+            //int expectedAmount = Config.EndPageId - Config.StartPageId + 1;
+            //while (ProcessedEntries.Count < expectedAmount)
+            //{
+            //    Thread.Sleep(1000);
+            //}
         }
 
         private async Task Process(int startId, int endId)
