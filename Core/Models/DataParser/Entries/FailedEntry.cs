@@ -9,5 +9,6 @@ namespace Core.Models.DataParser.Entries
     {
         public int ID { get; set; }
         public int StatusCode { get; set; }
+        public string StackTrace { get; set; }
     }
 }
