@@ -70,6 +70,15 @@ namespace Core
             }
             catch (WebException e)
             {
+                if (e.Response == null)
+                {
+                    return new RequestResult()
+                    {
+                        StatusCode = -1,
+                        Content = e.Message
+                    };
+                }
+
                 HttpWebResponse response = (HttpWebResponse)e.Response;
                 return new RequestResult() { StatusCode = (int)response.StatusCode};
             }
@@ -92,6 +101,15 @@ namespace Core
             }
             catch (WebException e)
             {
+                if (e.Response == null)
+                {
+                    return new ByteRequestResult()
+                    {
+                        StatusCode = -1,
+                        Content = new byte[1]{ 0 }
+                    };
+                }
+
                 HttpWebResponse response = (HttpWebResponse)e.Response;
                 return new ByteRequestResult()
                 {
