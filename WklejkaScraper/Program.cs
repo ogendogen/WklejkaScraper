@@ -13,7 +13,7 @@ namespace WklejkaScraper
 {
     static class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Console.WriteLine("Launching...");
             if (!File.Exists("config.json"))
