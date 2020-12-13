@@ -9,6 +9,8 @@ using Core.Models.DataParser.Entries;
 using Core.Models.DataParser.Interfaces;
 using Core.Models.Scraper;
 using Core.Models.Scraper.Elements;
+using System.Threading;
+using System.Diagnostics;
 
 namespace Core
 {
