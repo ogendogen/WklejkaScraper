@@ -48,7 +48,13 @@ namespace Core
 
             for (int i=1; i<=threadsAmount; i++)
             {
-                Process(currentId, currentId + chunkSize);
+                int tmpCurrentId = currentId;
+                int tmpIncresedCurrentId = currentId + chunkSize;
+                Threads.Add(new Thread(() => 
+                {
+                    Process(tmpCurrentId, tmpIncresedCurrentId);
+                }));
+
                 currentId += chunkSize;
                 currentId++;
             }
@@ -60,6 +66,8 @@ namespace Core
             {
                 thread.Start();
             }
+
+            Thread.Sleep(100);
 
             Task.WaitAll(Tasks.ToArray());
 
@@ -74,9 +82,10 @@ namespace Core
         {
             for (int i = startId; i <= endId; i++)
             {
+                int tmp = i;
                 Task task = Task.Run(async () =>
                 {
-                    var entry = await GetEntry(i);
+                    var entry = await GetEntry(tmp);
                     ProcessedEntries.Add(entry);
                 });
                 Tasks.Add(task);
