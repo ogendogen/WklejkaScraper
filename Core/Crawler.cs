@@ -20,15 +20,20 @@ namespace Core
         internal RequestHandler RequestHandler { get; private set; }
         internal Scraper Scraper { get; set; }
         internal DataParser DataParser { get; set; }
+        public List<IEntry> ProcessedEntries { get; set; }
+
         public Crawler(Config config)
         {
             Config = config;
             Configuration();
+            ProcessedEntries = new List<IEntry>();
         }
 
         public async IAsyncEnumerable<IEntry> Process()
         {
-            for (int i=Config.StartPageId; i<=Config.EndPageId; i++)
+        private async Task<IEntry> GetEntry(int i)
+        {
+            try
             {
                 var requestResult = await RequestHandler.GetPageContent(i);
                 if (requestResult.StatusCode == 200)
@@ -38,12 +43,20 @@ namespace Core
                 }
                 else
                 {
-                    yield return new FailedEntry()
+                    return new FailedEntry()
                     {
                         ID = i,
                         StatusCode = requestResult.StatusCode
                     };
                 }
+            }
+            catch (Exception ex)
+            {
+                return new FailedEntry()
+                {
+                    ID = i,
+                    StackTrace = ex.StackTrace
+                };
             }
         }
 
