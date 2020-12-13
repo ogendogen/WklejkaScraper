@@ -49,7 +49,7 @@ namespace WklejkaScraper
 
             watch.Stop();
             Console.WriteLine("Finished");
-            Console.WriteLine($"Seconds taken: {watch.ElapsedMilliseconds / 1000}");
+            Console.WriteLine($"Time taken: {watch.Elapsed.Hours}h {watch.Elapsed.Minutes}m {watch.Elapsed.Seconds}s");
             Console.ReadKey();
         }
     }
