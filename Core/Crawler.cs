@@ -48,14 +48,7 @@ namespace Core
 
             for (int i=1; i<=threadsAmount; i++)
             {
-                Threads.Add(new Thread(() => 
-                {
-                    Task task = Task.Run(async () =>
-                    {
-                        await Process(currentId, currentId + chunkSize);
-                    });
-                    Tasks.Add(task);
-                }));
+                Process(currentId, currentId + chunkSize);
                 currentId += chunkSize;
                 currentId++;
             }
@@ -77,12 +70,16 @@ namespace Core
             //}
         }
 
-        private async Task Process(int startId, int endId)
+        private void Process(int startId, int endId)
         {
             for (int i = startId; i <= endId; i++)
             {
-                var entry = await GetEntry(i);
-                ProcessedEntries.Add(entry);
+                Task task = Task.Run(async () =>
+                {
+                    var entry = await GetEntry(i);
+                    ProcessedEntries.Add(entry);
+                });
+                Tasks.Add(task);
             }
             //ParallelLoopResult parallelResult = Parallel.For(Config.StartPageId, Config.EndPageId, new ParallelOptions() { MaxDegreeOfParallelism = 2 }, i =>  // await GetEntry(i));
             //{
