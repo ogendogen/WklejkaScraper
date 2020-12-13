@@ -6,12 +6,14 @@ using Core;
 using Core.Models;
 using Core.Models.DataParser.Interfaces;
 using Newtonsoft.Json;
+using System.Linq;
+using System.Threading;
 
 namespace WklejkaScraper
 {
-    class Program
+    static class Program
     {
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
             Console.WriteLine("Launching...");
             if (!File.Exists("config.json"))
