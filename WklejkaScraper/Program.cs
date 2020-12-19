@@ -32,8 +32,8 @@ namespace WklejkaScraper
 
             MongoDb mongoDb = new MongoDb(config.ConnectionString);
 
-            decimal counter = 0;
-            decimal maxPages = config.EndPageId - config.StartPageId;
+            decimal counter = 1;
+            decimal maxPages = config.EndPageId - config.StartPageId + 1;
             decimal percentage = 0;
 
             var watch = System.Diagnostics.Stopwatch.StartNew();
