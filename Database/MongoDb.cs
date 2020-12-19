@@ -2,7 +2,7 @@
 
 namespace Database
 {
-    public class Class1
+    public class MongoDb
     {
     }
 }
