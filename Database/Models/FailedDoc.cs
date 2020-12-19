@@ -8,11 +8,10 @@ namespace Database.Models
 {
     public class FailedDoc : IDoc
     {
-        [BsonId]
-        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
-        public int ID { get; set; }
         public int PageID { get; set; }
+        [BsonIgnoreIfDefault]
         public int StatusCode { get; set; }
+        [BsonIgnoreIfDefault]
         public string StackTrace { get; set; }
     }
 }

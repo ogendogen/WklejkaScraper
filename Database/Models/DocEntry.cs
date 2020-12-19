@@ -6,14 +6,18 @@ namespace Database.Models
 {
     public class DocEntry : IDoc
     {
-        [BsonId]
-        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
-        public int ID { get; set; }
         public int PageID { get; set; }
+        [BsonIgnoreIfDefault]
         public string Author { get; set; }
+        [BsonIgnoreIfDefault]
         public DateTime Date { get; set; }
+        [BsonIgnoreIfDefault]
         public string Content { get; set; }
+        [BsonIgnoreIfDefault]
         public string PicturePath { get; set; }
+        [BsonIgnoreIfNull]
         public byte[] Picture { get; set; }
+        [BsonIgnoreIfDefault]
+        public bool IsPasswordProtected { get; set; }
     }
 }
