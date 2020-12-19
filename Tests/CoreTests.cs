@@ -51,7 +51,8 @@ namespace Tests
                 {
                     StartPageId = 1,
                     EndPageId = 5,
-                    MaxTriesPerPage = 10
+                    MaxTriesPerPage = 10,
+                    OCRApiKey = "34855a945e88957"
                 };
             }
         }
