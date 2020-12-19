@@ -181,6 +181,44 @@ namespace Tests
             Assert.AreEqual("2007-05-08 11:18", id52.Date.ToString("yyyy-MM-dd HH:mm"));
         }
 
+        public static IEnumerable<Config> AuthorAndDateConfig2
+        {
+            get
+            {
+                yield return new Config()
+                {
+                    StartPageId = 5,
+                    EndPageId = 7,
+                    MaxTriesPerPage = 10
+                };
+            }
+        }
+
+        [Test]
+        [TestCaseSource("AuthorAndDateConfig2")]
+        public async Task AuthorAndDateTest2(Config config)
+        {
+            Crawler crawler = new Crawler(config);
+            List<IEntry> entries = new List<IEntry>();
+
+            await foreach (var entry in crawler.Process())
+            {
+                entries.Add(entry);
+            }
+
+            var id5 = (TextEntry)entries.First(entry => entry.ID == 5);
+            Assert.AreEqual("rt", id5.Author);
+            Assert.AreEqual("2007-04-30 15:58", id5.Date.ToString("yyyy-MM-dd HH:mm"));
+
+            var id6 = (TextEntry)entries.First(entry => entry.ID == 6);
+            Assert.AreEqual("testowy656", id6.Author);
+            Assert.AreEqual("2007-04-30 18:44", id6.Date.ToString("yyyy-MM-dd HH:mm"));
+
+            var id7 = (TextEntry)entries.First(entry => entry.ID == 7);
+            Assert.AreEqual(@"d", id7.Author);
+            Assert.AreEqual("2007-04-30 19:14", id7.Date.ToString("yyyy-MM-dd HH:mm"));
+        }
+
         public static IEnumerable<Config> OCRTestConfig
         {
             get
