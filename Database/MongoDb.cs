@@ -65,6 +65,14 @@ namespace Database
                     Content = textEntry.Content
                 };
             }
+            else if (entry is PasswordProtectedEntry passwordProtectedEntry)
+            {
+                return new DocEntry()
+                {
+                    PageID = passwordProtectedEntry.ID,
+                    IsPasswordProtected = true
+                };
+            }
 
             return new DocEntry()
             {
