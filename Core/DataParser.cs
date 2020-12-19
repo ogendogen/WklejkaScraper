@@ -104,14 +104,12 @@ namespace Core
 
         private string ParseAuthor(ScrapedTextElement authorTextElement)
         {
-            Match match = Regex.Match(authorTextElement.Content, @"~.+\(2");
-            if (match.Success)
+            Match match = Regex.Match(authorTextElement.Content, @"Dodane przez:(.+)\(2");
+            if (match.Success && match.Groups?.Count > 1)
             {
-                string matchedValue = match.Value;
-                return matchedValue.TrimStart('~')
-                    .TrimEnd('2')
-                    .TrimEnd('(')
-                    .TrimEnd(' ')
+                string matchedValue = match.Groups[1].Value;
+                return matchedValue.Trim()
+                    .TrimStart('~')
                     .TrimEnd('\'');
             }
 
