@@ -26,7 +26,7 @@ namespace Core.DataParserHandlers
             {
                 byte[] pictureBytes = DownloadPicture(pictureElement.Path);
                 string ocrRawResponse = OCR.ProcessImage(pictureElement.Path).Result;
-                string parsedOCRResponse = ParseOCRResponse(ocrRawResponse);      
+                string parsedOCRResponse = ParseOCRResponse(ocrRawResponse);
 
                 return new PictureEntry()
                 {
@@ -42,7 +42,15 @@ namespace Core.DataParserHandlers
 
         private string ParseOCRResponse(string ocrRawResponse)
         {
-            JObject ocrJsonObject = JObject.Parse(ocrRawResponse);
+            JObject ocrJsonObject = null;
+            try
+            {
+                ocrJsonObject = JObject.Parse(ocrRawResponse);
+            }
+            catch(Exception e)
+            {
+                return ocrRawResponse;
+            }
             
             string parsedText = ocrJsonObject["ParsedResults"]?[0]?["ParsedText"]?.ToString();
             string errorMessage = ocrJsonObject["ParsedResults"]?[0]?["ErrorMessage"]?.ToString();
