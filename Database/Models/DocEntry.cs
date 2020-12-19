@@ -8,6 +8,7 @@ namespace Database.Models
     {
         public int PageID { get; set; }
         [BsonIgnoreIfDefault]
+        [BsonIgnoreIfNull]
         public string Author { get; set; }
         [BsonIgnoreIfDefault]
         public DateTime Date { get; set; }
