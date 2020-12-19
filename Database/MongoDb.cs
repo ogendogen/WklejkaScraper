@@ -5,6 +5,7 @@ using MongoDB.Driver;
 using Core.Models.DataParser.Interfaces;
 using Core.Models.DataParser.Entries;
 using Database.Interfaces;
+using System.Threading.Tasks;
 
 namespace Database
 {
@@ -24,9 +25,10 @@ namespace Database
             FailedDocsCollection = MongoDatabase.GetCollection<FailedDoc>("failed_docs");
         }
 
-        public void InsertEntry(IEntry entry)
+        public async Task InsertEntry(IEntry entry)
         {
             IDoc doc = MapEntryToDoc(entry);
+            await InsertDoc(doc);
         }
 
         private IDoc MapEntryToDoc(IEntry entry)
@@ -68,6 +70,18 @@ namespace Database
             {
                 PageID = entry.ID
             };
+        }
+
+        private async Task InsertDoc(IDoc doc)
+        {
+            if (doc is DocEntry docEntry)
+            {
+                await DocsCollection.InsertOneAsync(docEntry);
+            }
+            else if (doc is FailedDoc failedDoc)
+            {
+                await FailedDocsCollection.InsertOneAsync(failedDoc);
+            }
         }
     }
 }
