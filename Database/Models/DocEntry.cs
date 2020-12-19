@@ -7,7 +7,6 @@ namespace Database.Models
     public class DocEntry : IDoc
     {
         public int PageID { get; set; }
-        [BsonIgnoreIfDefault]
         [BsonIgnoreIfNull]
         public string Author { get; set; }
         [BsonIgnoreIfDefault]
