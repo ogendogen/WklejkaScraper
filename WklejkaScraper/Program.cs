@@ -8,6 +8,7 @@ using Core.Models.DataParser.Interfaces;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Threading;
+using Database;
 
 namespace WklejkaScraper
 {
@@ -29,6 +30,8 @@ namespace WklejkaScraper
             Crawler crawler = new Crawler(config);
             List<IEntry> entries = new List<IEntry>();
 
+            MongoDb mongoDb = new MongoDb(config.ConnectionString);
+
             decimal counter = 0;
             decimal maxPages = config.EndPageId - config.StartPageId;
             decimal percentage = 0;
@@ -41,7 +44,7 @@ namespace WklejkaScraper
                 Console.WriteLine($"Processed pages: {counter} / {maxPages}");
                 Console.WriteLine($"Processed pages: {percentage.ToString("F")}%");
 
-                entries.Add(entry);
+                await mongoDb.InsertEntry(entry);
                 
                 counter++;
                 percentage = (counter / maxPages) * 100;
