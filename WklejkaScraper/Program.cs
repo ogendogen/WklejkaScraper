@@ -26,6 +26,12 @@ namespace WklejkaScraper
 
             string configJson = File.ReadAllText("config.json");
             Config config = JsonConvert.DeserializeObject<Config>(configJson);
+            if (String.IsNullOrEmpty(config.ConnectionString))
+            {
+                Console.WriteLine("MongoDb connection string is missing! Stopping");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
             
             Crawler crawler = new Crawler(config);
             List<IEntry> entries = new List<IEntry>();
