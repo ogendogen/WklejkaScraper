@@ -19,5 +19,7 @@ namespace Database.Models
         public byte[] Picture { get; set; }
         [BsonIgnoreIfDefault]
         public bool IsPasswordProtected { get; set; }
+        [BsonIgnoreIfDefault]
+        public bool IsDeleted { get; set; }
     }
 }

@@ -73,6 +73,14 @@ namespace Database
                     IsPasswordProtected = true
                 };
             }
+            else if (entry is DeletedEntry deletedEntry)
+            {
+                return new DocEntry()
+                {
+                    PageID = deletedEntry.ID,
+                    IsDeleted = true
+                };
+            }
 
             return new DocEntry()
             {
