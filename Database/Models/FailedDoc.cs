@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Database.Interfaces;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Database.Models
 {
-    public class FailedDoc
+    public class FailedDoc : IDoc
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]

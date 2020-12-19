@@ -1,9 +1,10 @@
 ﻿using System;
+using Database.Interfaces;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Database.Models
 {
-    public class DocEntry
+    public class DocEntry : IDoc
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
